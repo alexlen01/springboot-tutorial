@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="LOG_HOME" value="target/logs" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+	
+	<appender name="FILE_APPENDER"	class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/tutorial.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+	        <!-- We are rolling over daily -->
+	        <fileNamePattern>
+	        	${LOG_HOME}/archived/tutorial-%d{yyyy-MM-dd}.%i.log.gz
+	        </fileNamePattern>
+			<maxFileSize>1MB</maxFileSize>
+	        <!-- keep 10 days' worth of history capped at 5MB total size -->
+        	<maxHistory>10</maxHistory>
+	        <totalSizeCap>5MB</totalSizeCap>
+	    </rollingPolicy>
+	     <encoder>
+	        <charset>UTF-8</charset>
+	        <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+	    </encoder>
+	</appender>
+
+	<logger name="com.example.tutorial" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_APPENDER" />
+	</logger>
+
+	<root level="error">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_APPENDER" />
+	</root>
+
+</configuration>
