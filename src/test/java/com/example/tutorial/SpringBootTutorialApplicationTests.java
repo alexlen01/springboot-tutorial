@@ -32,8 +32,7 @@ public class SpringBootTutorialApplicationTests {
 	private Book createRandomBook() {
 		Book book = new Book();
 		book.setTitle(RandomStringUtils.randomAlphabetic(10));
-		book.setAuthor(RandomStringUtils.randomAlphabetic(15));
-		
+		book.setAuthor(RandomStringUtils.randomAlphabetic(15));		
 		return book;
 	}
 
@@ -47,8 +46,7 @@ public class SpringBootTutorialApplicationTests {
 	public void whenGetCreatedBookById_thenOK() {
 		Book book = createRandomBook();
 		String location = createBookAsUri(book);
-		Response response = RestAssured.get(location);
-		
+		Response response = RestAssured.get(location);		
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertEquals(book.getTitle(), response.jsonPath().get("title"));
 		LOGGER.info(location + " (GetCreatedBookById) -->> " + response.jsonPath().get("title"));
@@ -58,7 +56,6 @@ public class SpringBootTutorialApplicationTests {
 	public void whenGetNotExistBookById_thenNotFound() {
 		String location = API_ROOT + "/" + RandomStringUtils.randomNumeric(4);
 		Response response = RestAssured.get(location);
-
 		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
 	}
 
@@ -69,14 +66,12 @@ public class SpringBootTutorialApplicationTests {
 	      .contentType(MediaType.APPLICATION_JSON_VALUE)
 	      .body(book)
 	      .post(API_ROOT);
-	     
 		assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
 	}
 	 
 	@Test
 	public void whenGetAllBooks_thenOK() {
 		Response response = RestAssured.get(API_ROOT);
-
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		LOGGER.info(API_ROOT + " (GetAllBooks): " + response.jsonPath().prettify());
 	}
@@ -85,7 +80,6 @@ public class SpringBootTutorialApplicationTests {
 	public void whenGetBooksByTitle_thenOK() {
 		String location = API_ROOT + "/title/" + "Book Title";
 		Response response = RestAssured.get(location);
-
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.as(List.class).size() > 0);
 		LOGGER.info(location + " (GetBooksByTitle): " + response.jsonPath().prettify());
